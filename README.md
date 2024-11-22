@@ -1,6 +1,11 @@
 # Organization Structure Analysis
 This application generates reports based on employee salary discrepancies and management structure, identifying significant deviations relative to the averages of their respective teams.
 
+The result report contains insights into the organizational structure, focusing on compensation and reporting efficiency. 
+It identifies managers who either earn less than 20% above the average salary of their direct subordinates 
+or more than 50% above, detailing the specific discrepancies. 
+Additionally, the report highlights employees with excessive reporting lines, specifying those who have over four managers between them and the CEO.
+
 ## Prerequisites
 
 To run this Java application, you need:
