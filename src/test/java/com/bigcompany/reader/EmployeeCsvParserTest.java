@@ -12,8 +12,8 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CsvReaderTest {
-    private final CsvReader reader = new CsvReader();
+public class EmployeeCsvParserTest {
+    private final EmployeeCsvParser reader = new EmployeeCsvParser();
 
     @Test
     @DisplayName("Test loading valid employee data from CSV")

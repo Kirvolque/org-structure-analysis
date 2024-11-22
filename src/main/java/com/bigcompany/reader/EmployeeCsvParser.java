@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  * - Any file reading issues (e.g., file not found) will throw a {@link RuntimeException} wrapping the {@link IOException}.
  * - Invalid formats in the file will result in {@link IllegalArgumentException}.
  */
-public class CsvReader implements EmployeeInfoFileReader {
+public class EmployeeCsvParser implements EmployeeInfoFileReader {
 
     private static final String ID_COLUMN = "id";
     private static final String FIRST_NAME_COLUMN = "firstname";

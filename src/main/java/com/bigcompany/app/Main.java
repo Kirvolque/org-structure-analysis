@@ -1,7 +1,7 @@
 package com.bigcompany.app;
 
 import com.bigcompany.core.Application;
-import com.bigcompany.reader.CsvReader;
+import com.bigcompany.reader.EmployeeCsvParser;
 
 /**
  * The {@code Main} class serves as the entry point for the application, which processes employee data from a specified CSV file to report salary discrepancies.
@@ -22,7 +22,7 @@ public class Main {
         }
 
         try {
-            Application app = new Application(new CsvReader());
+            Application app = new Application(new EmployeeCsvParser());
             app.processData(args[0]);
         } catch (Exception e) {
             System.err.printf("Error processing data: %s%n", e.getMessage());
