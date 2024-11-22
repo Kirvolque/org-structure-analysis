@@ -18,7 +18,6 @@ public class ApplicationTest {
     @Test
     @DisplayName("Ensure that reports are accurately generated when applicable")
     void testReportsGeneratedWhenExpected() {
-        // Creating a stub of CsvReader
         List<Employee> mockEmployees = List.of(
                 new Employee(1, "Manager", "Boss", new BigDecimal("1000000"), Optional.empty()),
                 new Employee(2, "Subordinate", "One", new BigDecimal("500"), Optional.of(1)),
@@ -56,7 +55,6 @@ public class ApplicationTest {
     @Test
     @DisplayName("Ensure no report is generated when all conditions are met")
     void testNoReportsGeneratedWhenAllConditionsAreMet() {
-        // Creating a stub of CsvReader
         List<Employee> mockEmployees = List.of(
                 new Employee(1, "NameOne", "PeerOne", new BigDecimal("50000"), Optional.empty()),
                 new Employee(2, "NameTwo", "PeerTwo", new BigDecimal("50000"), Optional.empty())
