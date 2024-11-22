@@ -58,29 +58,24 @@ public class ReportGenerator {
         List<ReportEntry> entries = new ArrayList<>();
 
         for (Employee employee : allEmployees) {
-            Optional<Employee> managerOpt = employee.managerId().map(dataAccess::getById);
+            Set<Employee> subordinates = dataAccess.getSubordinates(employee);
+            if (!subordinates.isEmpty()) {
+                BigDecimal averageSalary = subordinates.stream()
+                        .map(Employee::salary)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        .divide(new BigDecimal(subordinates.size()), 2, RoundingMode.HALF_UP);
 
-            if (managerOpt.isPresent()) {
-                Employee manager = managerOpt.get();
-                Set<Employee> subordinates = dataAccess.getSubordinates(manager);
-                if (!subordinates.isEmpty()) {
-                    BigDecimal averageSalary = subordinates.stream()
-                            .map(Employee::salary)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add)
-                            .divide(new BigDecimal(subordinates.size()), 2, RoundingMode.HALF_UP);
+                BigDecimal minRequiredSalary = averageSalary.multiply(MIN_SALARY_MULTIPLIER);
+                BigDecimal maxAllowedSalary = averageSalary.multiply(MAX_SALARY_MULTIPLIER);
 
-                    BigDecimal minRequiredSalary = averageSalary.multiply(MIN_SALARY_MULTIPLIER);
-                    BigDecimal maxAllowedSalary = averageSalary.multiply(MAX_SALARY_MULTIPLIER);
+                if (employee.salary().compareTo(minRequiredSalary) < 0) {
+                    BigDecimal discrepancy = minRequiredSalary.subtract(employee.salary());
+                    entries.add(new ReportEntry(employee, "Earns less than expected", Optional.of(discrepancy)));
+                }
 
-                    if (manager.salary().compareTo(minRequiredSalary) < 0) {
-                        BigDecimal discrepancy = minRequiredSalary.subtract(manager.salary());
-                        entries.add(new ReportEntry(manager, "Earns less than expected", Optional.of(discrepancy)));
-                    }
-
-                    if (manager.salary().compareTo(maxAllowedSalary) > 0) {
-                        BigDecimal discrepancy = manager.salary().subtract(maxAllowedSalary);
-                        entries.add(new ReportEntry(manager, "Earns more than expected", Optional.of(discrepancy)));
-                    }
+                if (employee.salary().compareTo(maxAllowedSalary) > 0) {
+                    BigDecimal discrepancy = employee.salary().subtract(maxAllowedSalary);
+                    entries.add(new ReportEntry(employee, "Earns more than expected", Optional.of(discrepancy)));
                 }
             }
 

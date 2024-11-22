@@ -38,8 +38,6 @@ public class CsvReaderTest {
     public void testLoadEmployeesFromIncompleteFile() {
         String filePath = Objects.requireNonNull(getClass().getResource("/incomplete_data.csv")).getPath();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            reader.loadEmployeesFromFile(filePath);
-        });
+        assertThrows(IllegalArgumentException.class, () -> reader.loadEmployeesFromFile(filePath));
     }
 }
