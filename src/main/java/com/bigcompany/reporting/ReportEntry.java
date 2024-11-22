@@ -24,6 +24,8 @@ import java.util.Optional;
  * @param discrepancy an optional decimal value representing a discrepancy amount; could be empty if no discrepancy is reported
  */
 public record ReportEntry(Employee employee, String message, Optional<BigDecimal> discrepancy) {
+    private static final String BASE_ENTRY_FORMAT = "Employee ID: %s, Name: %s %s, Issue: %s";
+    private static final String FULL_ENTRY_FORMAT = BASE_ENTRY_FORMAT + ", Discrepancy: %s";
 
     /**
      * Returns a formatted string representation of the report entry suitable for report output.
@@ -34,12 +36,11 @@ public record ReportEntry(Employee employee, String message, Optional<BigDecimal
      * @return Formatted entry string, never null, depicting the detailed context about the employee and the reported issue.
      */
     public String formatEntry() {
-        String baseFormat = "Employee ID: %s, Name: %s %s, Issue: %s";
         return discrepancy.map(d -> String.format(
-                        baseFormat + ", Discrepancy: %s",
+                        FULL_ENTRY_FORMAT,
                         employee.id(), employee.firstName(), employee.lastName(), message, d.toPlainString()))
                 .orElse(String.format(
-                        baseFormat,
+                        BASE_ENTRY_FORMAT,
                         employee.id(), employee.firstName(), employee.lastName(), message));
     }
 }
