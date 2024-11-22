@@ -48,7 +48,6 @@ The application expects CSV input with the following columns:
 
 ## Example of Input
    ```plaitext
-   Employee ID: 124, Issue: Earns less than expected, Discrepancy: 15000.0000
-   Employee ID: 300, Issue: Earns more than expected, Discrepancy: 12500.0000
+   Employee ID: 124, Name: Ella Fitzgerald, Issue: Earns less than expected, Discrepancy: 15000.0000
+   Employee ID: 300, Name: Zoe Sutton, Issue: Earns more than expected, Discrepancy: 12500.0000
    ```
-

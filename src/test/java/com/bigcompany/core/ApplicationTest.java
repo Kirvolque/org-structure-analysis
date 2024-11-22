@@ -47,9 +47,9 @@ public class ApplicationTest {
         // Check the output
         String expectedOutput =
                 """
-                        Employee ID: 1, Issue: Earns more than expected, Discrepancy: 839125.0000
-                        Employee ID: 2, Issue: Earns less than expected, Discrepancy: 95500.0000
-                        Employee ID: 8, Issue: Too many managers in reporting line by 1 levels""";
+                        Employee ID: 1, Name: Manager Boss, Issue: Earns more than expected, Discrepancy: 839125.0000
+                        Employee ID: 2, Name: Subordinate One, Issue: Earns less than expected, Discrepancy: 95500.0000
+                        Employee ID: 8, Name: Mason Alexander, Issue: Too many managers in reporting line by 1 levels""";
         assertEquals(expectedOutput, outContent.toString().trim());
     }
 
@@ -77,6 +77,4 @@ public class ApplicationTest {
         app.processData("path/to/fakefile.csv");
         assertTrue(outContent.toString().trim().isEmpty());
     }
-
-
 }

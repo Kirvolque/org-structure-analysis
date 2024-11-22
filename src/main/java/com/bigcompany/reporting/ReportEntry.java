@@ -27,14 +27,19 @@ public record ReportEntry(Employee employee, String message, Optional<BigDecimal
 
     /**
      * Returns a formatted string representation of the report entry suitable for report output.
-     * The format provided includes the employee ID, the associated message, and, if present, the discrepancy amount.
+     * This format includes the employee's ID, first name, last name, the associated message,
+     * and, if present, the discrepancy amount.
      * If a discrepancy is not specified, the message will conclude after describing the issue.
      *
      * @return Formatted entry string, never null, depicting the detailed context about the employee and the reported issue.
      */
     public String formatEntry() {
+        String baseFormat = "Employee ID: %s, Name: %s %s, Issue: %s";
         return discrepancy.map(d -> String.format(
-                "Employee ID: %s, Issue: %s, Discrepancy: %s", employee.id(), message, d.toPlainString()))
-                .orElse(String.format("Employee ID: %s, Issue: %s", employee.id(), message));
+                        baseFormat + ", Discrepancy: %s",
+                        employee.id(), employee.firstName(), employee.lastName(), message, d.toPlainString()))
+                .orElse(String.format(
+                        baseFormat,
+                        employee.id(), employee.firstName(), employee.lastName(), message));
     }
 }
