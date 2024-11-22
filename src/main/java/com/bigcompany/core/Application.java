@@ -8,6 +8,10 @@ import com.bigcompany.reporting.ReportGenerator;
 
 import java.util.List;
 
+/**
+ * The {@code Application} class processes employee data to generate reports on salary discrepancies and management structures.
+ * This class utilizes {@code EmployeeInfoFileReader} to read employee data from a file, then generates a report using {@code ReportGenerator}.
+ */
 public class Application {
     private final EmployeeInfoFileReader reader;
 
@@ -15,6 +19,11 @@ public class Application {
         this.reader = reader;
     }
 
+    /**
+     * Processes the employee data from a specified file path, generates a report, and prints the report.
+     *
+     * @param filePath the path to the file containing employee data
+     */
     public void processData(String filePath) {
         List<Employee> csvContent = reader.loadEmployeesFromFile(filePath);
         EmployeeDataAccess dataAccess = new InMemoryEmployeeDataAccess(csvContent);
