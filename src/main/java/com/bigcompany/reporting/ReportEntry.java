@@ -34,7 +34,7 @@ public record ReportEntry(Employee employee, String message, Optional<BigDecimal
      */
     public String formatEntry() {
         return discrepancy.map(d -> String.format(
-                "Employee ID: %s, Issue: %s, Amount: %s", employee.id(), message, d.toPlainString()))
+                "Employee ID: %s, Issue: %s, Discrepancy: %s", employee.id(), message, d.toPlainString()))
                 .orElse(String.format("Employee ID: %s, Issue: %s", employee.id(), message));
     }
 }
