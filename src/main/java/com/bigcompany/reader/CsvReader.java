@@ -9,7 +9,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,6 +41,8 @@ public class CsvReader implements EmployeeInfoFileReader {
     private static final String SALARY_COLUMN = "salary";
     private static final String MANAGER_ID_COLUMN = "managerid";
 
+    private static final Set<String> mandatoryColumns = Set.of(ID_COLUMN, FIRST_NAME_COLUMN, LAST_NAME_COLUMN, SALARY_COLUMN);
+
     /**
      * Loads employee information from a CSV file.
      *
@@ -55,6 +59,7 @@ public class CsvReader implements EmployeeInfoFileReader {
      */
     @Override
     public List<Employee> loadEmployeesFromFile(String filePath) {
+        Objects.requireNonNull(filePath);
         try (Stream<String> lines = Files.lines(Path.of(filePath))) {
             List<String> allLines = lines.toList();
             if (allLines.isEmpty()) return List.of();
@@ -80,7 +85,7 @@ public class CsvReader implements EmployeeInfoFileReader {
 
     private Employee parseEmployee(String line, Map<String, Integer> headerMap) {
         String[] parts = line.split(",");
-        if (parts.length < headerMap.size() - 1) {
+        if (parts.length < mandatoryColumns.size()) {
             throw new IllegalArgumentException(String.format("Not enough data in line: %s", line));
         }
 

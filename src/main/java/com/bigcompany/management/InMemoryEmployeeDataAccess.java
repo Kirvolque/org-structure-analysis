@@ -29,6 +29,7 @@ public class InMemoryEmployeeDataAccess implements EmployeeDataAccess {
      * @param initialEmployees an iterable collection of initial employees to be loaded into the data access.
      */
     public InMemoryEmployeeDataAccess(Iterable<Employee> initialEmployees) {
+        Objects.requireNonNull(initialEmployees);
         this.employeesById = new HashMap<>();
         this.directSubordinatesByManagerId = new HashMap<>();
 

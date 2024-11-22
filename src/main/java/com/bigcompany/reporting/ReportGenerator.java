@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,7 @@ public class ReportGenerator {
     private static final int MAX_ALLOWED_MANAGERS = 4; // Max allowed intermediaries between employee
 
     public ReportGenerator(EmployeeDataAccess dataAccess) {
+        Objects.requireNonNull(dataAccess);
         this.dataAccess = dataAccess;
     }
 
