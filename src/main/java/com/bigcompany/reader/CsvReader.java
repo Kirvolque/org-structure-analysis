@@ -65,12 +65,25 @@ public class CsvReader implements EmployeeInfoFileReader {
             if (allLines.isEmpty()) return List.of();
 
             Map<String, Integer> headerMap = parseHeader(allLines.getFirst());
+            validateHeader(headerMap.keySet());
 
             return allLines.stream().skip(1)  // Skip the header row
                     .map(line -> parseEmployee(line, headerMap))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(String.format("Error reading file: %s", filePath), e);
+        }
+    }
+
+    private void validateHeader(Set<String> columns) {
+        var requiredColumns = Set.of(ID_COLUMN, FIRST_NAME_COLUMN, LAST_NAME_COLUMN, SALARY_COLUMN, MANAGER_ID_COLUMN);
+        var headerIsValid = columns.containsAll(requiredColumns);
+
+        if (!headerIsValid) {
+            throw new IllegalArgumentException(
+                    String.format("CSV file is missing one or more required columns. Required columns are: %s. Found columns are: %s.",
+                            requiredColumns, columns)
+            );
         }
     }
 
