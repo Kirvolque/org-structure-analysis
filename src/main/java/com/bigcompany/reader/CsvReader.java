@@ -33,11 +33,11 @@ import java.util.stream.Stream;
  */
 public class CsvReader implements EmployeeInfoFileReader {
 
-    private static final String ID_COLUMN = "Id";
-    private static final String FIRST_NAME_COLUMN = "firstName";
-    private static final String LAST_NAME_COLUMN = "lastName";
+    private static final String ID_COLUMN = "id";
+    private static final String FIRST_NAME_COLUMN = "firstname";
+    private static final String LAST_NAME_COLUMN = "lastname";
     private static final String SALARY_COLUMN = "salary";
-    private static final String MANAGER_ID_COLUMN = "managerId";
+    private static final String MANAGER_ID_COLUMN = "managerid";
 
     /**
      * Loads employee information from a CSV file.
@@ -80,7 +80,7 @@ public class CsvReader implements EmployeeInfoFileReader {
 
     private Employee parseEmployee(String line, Map<String, Integer> headerMap) {
         String[] parts = line.split(",");
-        if (parts.length < headerMap.size()) {
+        if (parts.length < headerMap.size() - 1) {
             throw new IllegalArgumentException(String.format("Not enough data in line: %s", line));
         }
 
