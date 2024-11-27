@@ -3,7 +3,14 @@ package com.bigcompany.management;
 import com.bigcompany.management.exception.EmployeeNotFoundException;
 import com.bigcompany.model.Employee;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Implements {@code EmployeeDataAccess} to manage employee data in memory.
@@ -20,7 +27,6 @@ import java.util.*;
 public class InMemoryEmployeeDataAccess implements EmployeeDataAccess {
     private final Map<Integer, Employee> employeesById;
     private final Map<Integer, Set<Employee>> directSubordinatesByManagerId;
-    private static final int MAX_NUMBER_OF_MANAGERS = 1000;
 
     /**
      * Constructs an InMemoryEmployeeDataAccess instance and initializes it with a set of employees.
@@ -78,8 +84,6 @@ public class InMemoryEmployeeDataAccess implements EmployeeDataAccess {
      * <p>
      * Assumptions:
      * <ul>
-     *     <li>There should be no circular relationships in the managerial hierarchy, ensuring that an employee cannot indirectly manage themselves.</li>
-     *     <li>The maximum number of managers in any reporting chain should be less than {@code MAX_NUMBER_OF_MANAGERS} to guarantee processing completion.</li>
      *     <li>This method will not be invoked multiple times for the same employee during the application lifecycle, thus results are not cached.</li>
      * </ul>
      * </p>
@@ -89,11 +93,17 @@ public class InMemoryEmployeeDataAccess implements EmployeeDataAccess {
      */
     @Override
     public List<Employee> getManagers(Employee employee) {
+        var uniqueManagerIds = new HashSet<Integer>();
         var managerId = employee.managerId();
         var managers = new ArrayList<Employee>();
-        // Ensure that we do not exceed the set limit for number of managers to prevent infinite loops
-        // in case of data inconsistencies or excessively deep managerial hierarchies.
-        while (managerId.isPresent() && managers.size() <= MAX_NUMBER_OF_MANAGERS) {
+        while (managerId.isPresent()) {
+            if (uniqueManagerIds.contains(managerId.get())) {
+                throw new IllegalArgumentException(
+                        String.format("Circular relationships in the managerial hierarchy. Employee: %s, Manager Ids: %s ",
+                                employee, uniqueManagerIds)
+                );
+            }
+            uniqueManagerIds.add(managerId.get());
             var manager = getById(managerId.get());
             managers.add(manager);
             managerId = manager.managerId();
